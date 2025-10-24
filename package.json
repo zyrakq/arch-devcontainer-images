@@ -1,0 +1,14 @@
+{
+  "name": "arch-devcontainer-images",
+  "version": "1.0.0",
+  "description": "Pre-built Arch Linux images for Dev Containers",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@devcontainers/cli": "^0.76.0"
+  },
+  "devDependencies": {},
+  "scripts": {}
+}

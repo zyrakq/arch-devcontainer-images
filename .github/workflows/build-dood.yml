@@ -3,7 +3,7 @@ name: Build Docker-outside-of-Docker Images
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 9 * * *"  # 09:00 UTC daily
+    - cron: "30 7 * * *"  # 07:30 UTC daily
   push:
     branches: [main]
     paths:

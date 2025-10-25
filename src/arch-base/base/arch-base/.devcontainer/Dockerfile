@@ -5,6 +5,7 @@ LABEL org.opencontainers.image.title="Arch Linux Base"
 LABEL org.opencontainers.image.source="https://github.com/zyrakq/arch-devcontainer-images"
 LABEL org.opencontainers.image.description="Minimal Arch Linux base image for Dev Containers"
 LABEL org.opencontainers.image.licenses="MIT OR Apache-2.0"
+LABEL org.opencontainers.image.authors="Zyrakq <serg.shehov@tutanota.com>"
 
 # Adjust directory permissions
 RUN chmod 555 /srv/ftp && \

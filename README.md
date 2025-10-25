@@ -195,12 +195,12 @@ Images are built in stages to optimize resource usage and leverage layer caching
 |------------|-------|-------|------------|-------------|
 | 00:00 | Base | 6 | upstream | Minimal base images from archlinux and linuxserver |
 | 01:30 | Base Common | 6 | *-base:latest | Base images with common-utils feature |
-| 03:00 | Languages | 56 | *-common:latest | Single language images (node, rust, go, dotnet) |
-| 04:30 | Combinations | 30 | *-node:latest | Multi-language combinations (node-rust, node-go, node-dotnet) |
-| 06:00 | Docker-in-Docker | 52 | *-common/*-lang | Images with DinD support |
-| 09:00 | Docker-outside | 52 | *-common/*-lang | Images with DooD support |
+| 03:00 | Languages | 24 | *-common:latest | Single language images (node, rust, go, dotnet) |
+| 04:30 | Combinations | 18 | *-node:latest | Multi-language combinations (node-rust, node-go, node-dotnet) |
+| 06:00 | Docker-in-Docker | 48 | *-common/*-lang | Images with DinD support |
+| 07:30 | Docker-outside | 48 | *-common/*-lang | Images with DooD support |
 
-**Total**: 150 images built over ~9 hours with maximum layer reuse
+**Total**: 150 images built over ~8 hours with maximum layer reuse
 
 ### Build Optimization
 
@@ -208,6 +208,7 @@ Images are built in stages to optimize resource usage and leverage layer caching
 - 📦 **Reduced Redundancy**: Base system built once, reused 144 times
 - 🔄 **Distributed Load**: Build load spread across 6 time windows
 - 💾 **Bandwidth Savings**: ~69GB saved by not re-downloading base system
+- 🎯 **Smart Base Selection**: Node-Go combinations use Go as base image (Go builds slower than Node.js, optimizing build time and reducing GitHub runner load)
 
 ### Maintenance
 
@@ -227,3 +228,5 @@ Images are built in stages to optimize resource usage and leverage layer caching
 ## 📄 License
 
 Dual-licensed under MIT OR Apache-2.0
+
+**Note**: The LinuxServer.io Docker images used by arch-webtop families are licensed under GPL-3.0. When you use these images, the resulting container will be subject to GPL-3.0 terms. See [LinuxServer.io License](https://github.com/linuxserver/docker-webtop/blob/master/LICENSE) for details.

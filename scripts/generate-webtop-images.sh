@@ -56,7 +56,8 @@ FROM ${base_image}
 LABEL org.opencontainers.image.title="${title}"
 LABEL org.opencontainers.image.source="https://github.com/zyrakq/arch-devcontainer-images"
 LABEL org.opencontainers.image.description="${description}"
-LABEL org.opencontainers.image.licenses="MIT OR Apache-2.0"
+LABEL org.opencontainers.image.licenses="GPL-3.0"
+LABEL org.opencontainers.image.authors="Zyrakq <serg.shehov@tutanota.com>"
 EOF
 }
 
@@ -217,7 +218,7 @@ for de in "${!WEBTOP_BASES[@]}"; do
         "src/arch-webtop-${de}/lang/arch-webtop-${de}-node-rust/metadata.json"
     
     mkdir -p "src/arch-webtop-${de}/lang/arch-webtop-${de}-node-go/.devcontainer"
-    create_webtop_devcontainer_from_image "$WEBTOP_NODE" "${GO_FEATURE}" \
+    create_webtop_devcontainer_from_image "$WEBTOP_GO" "${NODE_FEATURE}" \
         "src/arch-webtop-${de}/lang/arch-webtop-${de}-node-go/.devcontainer/devcontainer.json"
     create_webtop_metadata "arch-webtop-${de}-node-go" \
         "Arch Linux webtop image with ${de^^}, Node.js and Go for fullstack development" \

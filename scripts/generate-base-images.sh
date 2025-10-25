@@ -63,57 +63,6 @@ EOF
     fi
 }
 
-# Create devcontainer.json with Dockerfile (for base images)
-create_devcontainer_with_dockerfile() {
-    local features="$1"
-    local output="$2"
-    
-    cat > "$output" << EOF
-{
-  "build": {
-    "dockerfile": "./Dockerfile",
-    "context": ".",
-    "args": {
-      "VARIANT": "latest"
-    }
-  },
-  "features": {${COMMON_UTILS_FEATURE}${features}
-  },
-  "remoteUser": "vscode"
-}
-EOF
-}
-
-# Create Dockerfile
-create_dockerfile() {
-    local title="$1"
-    local description="$2"
-    local output="$3"
-    
-    cat > "$output" << 'EOF'
-ARG VARIANT="latest"
-FROM docker.io/archlinux/archlinux:${VARIANT}
-
-LABEL org.opencontainers.image.title="TITLE_PLACEHOLDER"
-LABEL org.opencontainers.image.source="https://github.com/zyrakq/arch-devcontainer-images"
-LABEL org.opencontainers.image.description="DESCRIPTION_PLACEHOLDER"
-LABEL org.opencontainers.image.licenses="MIT OR Apache-2.0"
-
-# Adjust directory permissions
-RUN chmod 555 /srv/ftp && \
-    chmod 755 /usr/share/polkit-1/rules.d/
-
-# Initialize pacman keyring and upgrade system
-RUN pacman-key --init && \
-    pacman-key --populate archlinux && \
-    pacman -Sy --needed --noconfirm --disable-download-timeout archlinux-keyring && \
-    pacman -Su --noconfirm --disable-download-timeout
-EOF
-    
-    sed -i "s/TITLE_PLACEHOLDER/$title/" "$output"
-    sed -i "s/DESCRIPTION_PLACEHOLDER/$description/" "$output"
-}
-
 # Create metadata.json
 create_metadata() {
     local name="$1"
@@ -143,6 +92,7 @@ LABEL org.opencontainers.image.title="Arch Linux Base"
 LABEL org.opencontainers.image.source="https://github.com/zyrakq/arch-devcontainer-images"
 LABEL org.opencontainers.image.description="Minimal Arch Linux base image for Dev Containers"
 LABEL org.opencontainers.image.licenses="MIT OR Apache-2.0"
+LABEL org.opencontainers.image.authors="Zyrakq <serg.shehov@tutanota.com>"
 
 # Adjust directory permissions
 RUN chmod 555 /srv/ftp && \
@@ -221,6 +171,7 @@ create_metadata "arch-base-dotnet" \
 
 # Node combinations (FROM arch-base-node:latest)
 BASE_NODE_IMAGE="ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node:latest"
+BASE_GO_IMAGE="ghcr.io/zyrakq/arch-devcontainer-images/arch-base-go:latest"
 
 mkdir -p src/arch-base/lang/arch-base-node-rust/.devcontainer
 create_devcontainer_from_image "$BASE_NODE_IMAGE" "${RUST_FEATURE}" \
@@ -230,7 +181,7 @@ create_metadata "arch-base-node-rust" \
     "src/arch-base/lang/arch-base-node-rust/metadata.json"
 
 mkdir -p src/arch-base/lang/arch-base-node-go/.devcontainer
-create_devcontainer_from_image "$BASE_NODE_IMAGE" "${GO_FEATURE}" \
+create_devcontainer_from_image "$BASE_GO_IMAGE" "${NODE_FEATURE}" \
     "src/arch-base/lang/arch-base-node-go/.devcontainer/devcontainer.json"
 create_metadata "arch-base-node-go" \
     "Arch Linux base image with Node.js and Go for fullstack development" \

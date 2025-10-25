@@ -1,7 +1,7 @@
 {
   "name": "arch-webtop-i3-rust",
   "description": "Arch Linux webtop image with I3 and Rust",
-  "platforms": ["linux/amd64", "linux/arm64"],
+  "platforms": ["linux/amd64"],
   "registry": "ghcr.io",
   "repository": "zyrakq/arch-devcontainer-images"
 }

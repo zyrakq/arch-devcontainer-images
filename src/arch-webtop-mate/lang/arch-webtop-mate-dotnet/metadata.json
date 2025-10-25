@@ -1,7 +1,7 @@
 {
   "name": "arch-webtop-mate-dotnet",
   "description": "Arch Linux webtop image with MATE and .NET SDK",
-  "platforms": ["linux/amd64", "linux/arm64"],
+  "platforms": ["linux/amd64"],
   "registry": "ghcr.io",
   "repository": "zyrakq/arch-devcontainer-images"
 }

@@ -1,7 +1,7 @@
 {
   "name": "arch-webtop-i3-dood-node",
   "description": "Arch Linux webtop image with I3, Docker-outside-of-Docker and Node.js",
-  "platforms": ["linux/amd64", "linux/arm64"],
+  "platforms": ["linux/amd64"],
   "registry": "ghcr.io",
   "repository": "zyrakq/arch-devcontainer-images"
 }

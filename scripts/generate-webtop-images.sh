@@ -131,7 +131,7 @@ create_webtop_metadata() {
 {
   "name": "$name",
   "description": "$description",
-  "platforms": ["linux/amd64", "linux/arm64"],
+  "platforms": ["linux/amd64"],
   "registry": "ghcr.io",
   "repository": "zyrakq/arch-devcontainer-images"
 }

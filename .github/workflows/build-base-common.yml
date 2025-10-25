@@ -98,6 +98,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Build and push
+        timeout-minutes: 25
         run: |
           devcontainer build \
             --workspace-folder src/${{ matrix.image }} \

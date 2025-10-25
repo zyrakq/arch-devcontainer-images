@@ -1,7 +1,7 @@
 {
   "name": "arch-webtop-kasmvnc-common",
   "description": "Arch Linux webtop image with KASMVNC and common development tools",
-  "platforms": ["linux/amd64", "linux/arm64"],
+  "platforms": ["linux/amd64"],
   "registry": "ghcr.io",
   "repository": "zyrakq/arch-devcontainer-images"
 }

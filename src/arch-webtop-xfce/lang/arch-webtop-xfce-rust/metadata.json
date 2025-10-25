@@ -1,7 +1,7 @@
 {
   "name": "arch-webtop-xfce-rust",
   "description": "Arch Linux webtop image with XFCE and Rust",
-  "platforms": ["linux/amd64", "linux/arm64"],
+  "platforms": ["linux/amd64"],
   "registry": "ghcr.io",
   "repository": "zyrakq/arch-devcontainer-images"
 }

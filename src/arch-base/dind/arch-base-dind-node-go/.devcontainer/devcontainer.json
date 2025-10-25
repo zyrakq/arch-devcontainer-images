@@ -1,26 +1,7 @@
 {
-  "build": {
-    "dockerfile": "./Dockerfile",
-    "context": ".",
-    "args": {
-      "VARIANT": "latest"
-    }
-  },
+  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node-go:latest",
   "features": {
-    "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
-      "username": "vscode",
-      "additionalPackages": "base-devel",
-      "installZsh": true,
-      "installOhMyZsh": true,
-      "configureZshAsDefaultShell": true
-    },
-    "ghcr.io/bartventer/arch-devcontainer-features/docker-in-docker:1": {},
-    "ghcr.io/zyrakq/arch-devcontainer-features/node:1": {
-      "installYarn": true,
-      "installPnpm": true,
-      "globalPackages": "typescript,nodemon"
-    },
-    "ghcr.io/bartventer/arch-devcontainer-features/go:1": {}
+    "ghcr.io/bartventer/arch-devcontainer-features/docker-in-docker:1": {}
   },
   "remoteUser": "vscode"
 }

@@ -1,30 +1,7 @@
 {
-  "build": {
-    "dockerfile": "./Dockerfile",
-    "context": ".",
-    "args": {
-      "VARIANT": "latest"
-    }
-  },
+  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node-dotnet:latest",
   "features": {
-    "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
-      "username": "vscode",
-      "additionalPackages": "base-devel",
-      "installZsh": true,
-      "installOhMyZsh": true,
-      "configureZshAsDefaultShell": true
-    },
-    "ghcr.io/bartventer/arch-devcontainer-features/docker-outside-of-docker:1": {},
-    "ghcr.io/zyrakq/arch-devcontainer-features/node:1": {
-      "installYarn": true,
-      "installPnpm": true,
-      "globalPackages": "typescript,nodemon"
-    },
-    "ghcr.io/zyrakq/arch-devcontainer-features/dotnet:1": {
-      "installAspNetRuntime": true,
-      "installEntityFramework": true,
-      "installGlobalTools": "dotnet-format,dotnet-outdated-tool"
-    }
+    "ghcr.io/bartventer/arch-devcontainer-features/docker-outside-of-docker:1": {}
   },
   "remoteUser": "vscode"
 }

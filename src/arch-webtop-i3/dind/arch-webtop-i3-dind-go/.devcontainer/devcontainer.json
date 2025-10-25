@@ -1,18 +1,7 @@
 {
-  "build": {
-    "dockerfile": "./Dockerfile",
-    "context": "."
-  },
+  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-i3-go:latest",
   "features": {
-    "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
-      "username": "abc",
-      "additionalPackages": "base-devel",
-      "installZsh": true,
-      "installOhMyZsh": true,
-      "configureZshAsDefaultShell": true
-    },
-    "ghcr.io/bartventer/arch-devcontainer-features/docker-in-docker:1": {},
-    "ghcr.io/bartventer/arch-devcontainer-features/go:1": {}
+    "ghcr.io/bartventer/arch-devcontainer-features/docker-in-docker:1": {}
   },
   "runArgs": [
     "--shm-size=1gb"

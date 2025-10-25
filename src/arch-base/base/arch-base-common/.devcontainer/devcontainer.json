@@ -1,11 +1,5 @@
 {
-  "build": {
-    "dockerfile": "./Dockerfile",
-    "context": ".",
-    "args": {
-      "VARIANT": "latest"
-    }
-  },
+  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base:latest",
   "features": {
     "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
       "username": "vscode",

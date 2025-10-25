@@ -1,21 +1,7 @@
 {
-  "build": {
-    "dockerfile": "./Dockerfile",
-    "context": ".",
-    "args": {
-      "VARIANT": "latest"
-    }
-  },
+  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-rust:latest",
   "features": {
-    "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
-      "username": "vscode",
-      "additionalPackages": "base-devel",
-      "installZsh": true,
-      "installOhMyZsh": true,
-      "configureZshAsDefaultShell": true
-    },
-    "ghcr.io/bartventer/arch-devcontainer-features/docker-in-docker:1": {},
-    "ghcr.io/zyrakq/arch-devcontainer-features/rust:1": {}
+    "ghcr.io/bartventer/arch-devcontainer-features/docker-in-docker:1": {}
   },
   "remoteUser": "vscode"
 }

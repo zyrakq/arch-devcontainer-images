@@ -1,16 +1,6 @@
 {
-  "build": {
-    "dockerfile": "./Dockerfile",
-    "context": "."
-  },
+  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-mate-common:latest",
   "features": {
-    "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
-      "username": "abc",
-      "additionalPackages": "base-devel",
-      "installZsh": true,
-      "installOhMyZsh": true,
-      "configureZshAsDefaultShell": true
-    },
     "ghcr.io/zyrakq/arch-devcontainer-features/dotnet:1": {
       "installAspNetRuntime": true,
       "installEntityFramework": true,

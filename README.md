@@ -187,10 +187,34 @@ src/
 
 ## ⏰ Build & Maintenance
 
-- 📅 **Daily Builds**: All images are built daily at 00:00 UTC with `--no-cache`
-- 🧹 **Weekly Cleanup**: Old versions are cleaned up every Sunday (keeping last 3 versions)
-- 🏷️ **Versioning**: Images are tagged with both `latest` and `YYYYMMDD.{run_number}`
+### Staged Build Schedule
+
+Images are built in stages to optimize resource usage and leverage layer caching:
+
+| Time (UTC) | Stage | Count | Base Image | Description |
+|------------|-------|-------|------------|-------------|
+| 00:00 | Base | 6 | upstream | Minimal base images from archlinux and linuxserver |
+| 01:30 | Base Common | 6 | *-base:latest | Base images with common-utils feature |
+| 03:00 | Languages | 56 | *-common:latest | Single language images (node, rust, go, dotnet) |
+| 04:30 | Combinations | 30 | *-node:latest | Multi-language combinations (node-rust, node-go, node-dotnet) |
+| 06:00 | Docker-in-Docker | 52 | *-common/*-lang | Images with DinD support |
+| 09:00 | Docker-outside | 52 | *-common/*-lang | Images with DooD support |
+
+**Total**: 150 images built over ~9 hours with maximum layer reuse
+
+### Build Optimization
+
+- ⚡ **Layer Reuse**: Each stage builds on previous stages' images
+- 📦 **Reduced Redundancy**: Base system built once, reused 144 times
+- 🔄 **Distributed Load**: Build load spread across 6 time windows
+- 💾 **Bandwidth Savings**: ~69GB saved by not re-downloading base system
+
+### Maintenance
+
+- 🧹 **Weekly Cleanup**: Old versions cleaned up every Sunday (keeping last 3 versions)
+- 🏷️ **Versioning**: Images tagged with both `latest` and `YYYYMMDD.{run_number}`
 - 🔄 **Auto-discovery**: GitHub Actions automatically discover all images from `src/` directory
+- 📊 **Workflow Chaining**: Each stage triggers after previous completes successfully
 
 ## 🎯 Design Principles
 

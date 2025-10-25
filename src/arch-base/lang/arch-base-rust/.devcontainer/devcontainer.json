@@ -1,0 +1,20 @@
+{
+  "build": {
+    "dockerfile": "./Dockerfile",
+    "context": ".",
+    "args": {
+      "VARIANT": "latest"
+    }
+  },
+  "features": {
+    "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
+      "username": "vscode",
+      "additionalPackages": "base-devel",
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "configureZshAsDefaultShell": true
+    },
+    "ghcr.io/zyrakq/arch-devcontainer-features/rust:1": {}
+  },
+  "remoteUser": "vscode"
+}

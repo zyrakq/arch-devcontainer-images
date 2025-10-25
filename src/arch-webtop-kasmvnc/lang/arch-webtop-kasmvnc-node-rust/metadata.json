@@ -1,0 +1,7 @@
+{
+  "name": "arch-webtop-kasmvnc-node-rust",
+  "description": "Arch Linux webtop image with KASMVNC, Node.js and Rust for fullstack development",
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "registry": "ghcr.io",
+  "repository": "zyrakq/arch-devcontainer-images"
+}

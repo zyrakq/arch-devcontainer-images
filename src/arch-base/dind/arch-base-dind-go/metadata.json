@@ -1,0 +1,7 @@
+{
+  "name": "arch-base-dind-go",
+  "description": "Arch Linux base image with Docker-in-Docker and Go",
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "registry": "ghcr.io",
+  "repository": "zyrakq/arch-devcontainer-images"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "arch-webtop-mate-node-go",
+  "description": "Arch Linux webtop image with MATE, Node.js and Go for fullstack development",
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "registry": "ghcr.io",
+  "repository": "zyrakq/arch-devcontainer-images"
+}

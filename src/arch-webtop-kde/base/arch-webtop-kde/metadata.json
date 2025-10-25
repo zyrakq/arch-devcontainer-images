@@ -1,0 +1,7 @@
+{
+  "name": "arch-webtop-kde",
+  "description": "Arch Linux webtop image with KDE desktop environment",
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "registry": "ghcr.io",
+  "repository": "zyrakq/arch-devcontainer-images"
+}

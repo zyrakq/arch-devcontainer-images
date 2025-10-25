@@ -1,0 +1,7 @@
+{
+  "name": "arch-webtop-xfce-node",
+  "description": "Arch Linux webtop image with XFCE and Node.js",
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "registry": "ghcr.io",
+  "repository": "zyrakq/arch-devcontainer-images"
+}

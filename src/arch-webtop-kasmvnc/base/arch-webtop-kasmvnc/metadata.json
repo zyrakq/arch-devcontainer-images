@@ -1,0 +1,7 @@
+{
+  "name": "arch-webtop-kasmvnc",
+  "description": "Arch Linux webtop image with KASMVNC desktop environment",
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "registry": "ghcr.io",
+  "repository": "zyrakq/arch-devcontainer-images"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "arch-base-node-rust",
+  "description": "Arch Linux base image with Node.js and Rust for fullstack development",
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "registry": "ghcr.io",
+  "repository": "zyrakq/arch-devcontainer-images"
+}

@@ -1,0 +1,27 @@
+{
+  "build": {
+    "dockerfile": "./Dockerfile",
+    "context": "."
+  },
+  "features": {
+    "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
+      "username": "abc",
+      "additionalPackages": "base-devel",
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "configureZshAsDefaultShell": true
+    },
+    "ghcr.io/zyrakq/arch-devcontainer-features/node:1": {
+      "installYarn": true,
+      "installPnpm": true,
+      "globalPackages": "typescript,nodemon"
+    }
+  },
+  "runArgs": [
+    "--shm-size=1gb"
+  ],
+  "remoteUser": "abc",
+  "remoteEnv": {
+    "HOME": "/config"
+  }
+}

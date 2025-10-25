@@ -1,0 +1,7 @@
+{
+  "name": "arch-webtop-xfce-dood-go",
+  "description": "Arch Linux webtop image with XFCE, Docker-outside-of-Docker and Go",
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "registry": "ghcr.io",
+  "repository": "zyrakq/arch-devcontainer-images"
+}

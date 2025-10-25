@@ -1,0 +1,7 @@
+{
+  "name": "arch-webtop-mate-dind-node",
+  "description": "Arch Linux webtop image with MATE, Docker-in-Docker and Node.js",
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "registry": "ghcr.io",
+  "repository": "zyrakq/arch-devcontainer-images"
+}

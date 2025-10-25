@@ -6,23 +6,66 @@ on:
       keep_count:
         description: 'Number of recent versions to keep'
         required: false
-        default: '10'
+        default: '3'
         type: string
+      family:
+        description: 'Image family to cleanup (leave empty for all)'
+        required: false
+        type: choice
+        options:
+          - ''
+          - arch-base
+          - arch-webtop-kasmvnc
+          - arch-webtop-kde
+          - arch-webtop-i3
+          - arch-webtop-mate
+          - arch-webtop-xfce
   schedule:
     - cron: "0 3 * * 0"
 
 jobs:
+  discover:
+    name: Discover Images
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Discover image names
+        id: set-matrix
+        run: |
+          # Find all metadata.json files and extract image names
+          images=$(find src -name "metadata.json" -type f | while read -r metadata; do
+            dir=$(dirname "$metadata")
+            image_path="${dir#src/}"
+            name=$(jq -r '.name' "$metadata")
+            
+            # Filter by family if specified
+            if [ -n "${{ inputs.family }}" ]; then
+              if [[ "$image_path" == ${{ inputs.family }}/* ]]; then
+                echo "$name"
+              fi
+            else
+              echo "$name"
+            fi
+          done | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          
+          echo "matrix=$images" >> $GITHUB_OUTPUT
+          echo "Found images: $images"
+
   cleanup:
     name: Cleanup ${{ matrix.image }}
+    needs: discover
+    if: needs.discover.outputs.matrix != '[]'
     runs-on: ubuntu-latest
     permissions:
       packages: write
     strategy:
       fail-fast: false
       matrix:
-        image:
-          - arch-base
-          - arch-base-common
+        image: ${{ fromJson(needs.discover.outputs.matrix) }}
     
     steps:
       - name: Delete old package versions
@@ -30,5 +73,5 @@ jobs:
         with:
           package-name: ${{ matrix.image }}
           package-type: 'container'
-          min-versions-to-keep: ${{ inputs.keep_count || '10' }}
+          min-versions-to-keep: ${{ inputs.keep_count || '3' }}
           delete-only-untagged-versions: 'false'

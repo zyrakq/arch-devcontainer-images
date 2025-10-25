@@ -2,6 +2,19 @@ name: Build Images
 
 on:
   workflow_dispatch:
+    inputs:
+      family:
+        description: 'Image family to build (leave empty for all)'
+        required: false
+        type: choice
+        options:
+          - ''
+          - arch-base
+          - arch-webtop-kasmvnc
+          - arch-webtop-kde
+          - arch-webtop-i3
+          - arch-webtop-mate
+          - arch-webtop-xfce
   schedule:
     - cron: "0 0 * * *"
   push:
@@ -11,8 +24,40 @@ on:
       - '.github/workflows/build.yml'
 
 jobs:
+  discover:
+    name: Discover Images
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Discover image paths
+        id: set-matrix
+        run: |
+          # Find all directories with metadata.json
+          images=$(find src -name "metadata.json" -type f | while read -r metadata; do
+            dir=$(dirname "$metadata")
+            image_path="${dir#src/}"
+            
+            # Filter by family if specified
+            if [ -n "${{ inputs.family }}" ]; then
+              if [[ "$image_path" == ${{ inputs.family }}/* ]]; then
+                echo "$image_path"
+              fi
+            else
+              echo "$image_path"
+            fi
+          done | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          
+          echo "matrix=$images" >> $GITHUB_OUTPUT
+          echo "Found images: $images"
+
   build:
     name: Build ${{ matrix.image }}
+    needs: discover
+    if: needs.discover.outputs.matrix != '[]'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -20,9 +65,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image:
-          - arch-base
-          - arch-base-common
+        image: ${{ fromJson(needs.discover.outputs.matrix) }}
     
     steps:
       - name: Checkout
@@ -40,7 +83,9 @@ jobs:
         id: metadata
         run: |
           platforms=$(jq -r '.platforms | join(",")' src/${{ matrix.image }}/metadata.json)
+          name=$(jq -r '.name' src/${{ matrix.image }}/metadata.json)
           echo "platforms=$platforms" >> $GITHUB_OUTPUT
+          echo "name=$name" >> $GITHUB_OUTPUT
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -69,7 +114,7 @@ jobs:
           devcontainer build \
             --workspace-folder src/${{ matrix.image }} \
             --platform ${{ steps.metadata.outputs.platforms }} \
-            --image-name ghcr.io/${{ github.repository }}/${{ matrix.image }}:latest \
-            --image-name ghcr.io/${{ github.repository }}/${{ matrix.image }}:${{ steps.version.outputs.version }} \
+            --image-name ghcr.io/${{ github.repository }}/${{ steps.metadata.outputs.name }}:latest \
+            --image-name ghcr.io/${{ github.repository }}/${{ steps.metadata.outputs.name }}:${{ steps.version.outputs.version }} \
             --no-cache \
             --push

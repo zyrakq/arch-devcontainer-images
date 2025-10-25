@@ -1,0 +1,7 @@
+{
+  "name": "arch-base-dind-node-dotnet",
+  "description": "Arch Linux base image with Docker-in-Docker, Node.js and .NET for fullstack development",
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "registry": "ghcr.io",
+  "repository": "zyrakq/arch-devcontainer-images"
+}

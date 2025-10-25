@@ -1,0 +1,13 @@
+{
+  "build": {
+    "dockerfile": "./Dockerfile",
+    "context": "."
+  },
+  "runArgs": [
+    "--shm-size=1gb"
+  ],
+  "remoteUser": "abc",
+  "remoteEnv": {
+    "HOME": "/config"
+  }
+}

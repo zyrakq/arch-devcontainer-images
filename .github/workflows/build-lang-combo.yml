@@ -3,7 +3,7 @@ name: Build Language Combination Images
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 4 * * *"  # 04:30 UTC daily
+    - cron: "30 4 * * 3"  # 04:30 UTC every Wednesday
   push:
     branches: [main]
     paths:

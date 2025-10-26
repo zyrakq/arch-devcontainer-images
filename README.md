@@ -189,7 +189,7 @@ src/
 
 ### Staged Build Schedule
 
-Images are built in stages to optimize resource usage and leverage layer caching:
+Images are built weekly on **Wednesday** to optimize resource usage and leverage layer caching:
 
 | Time (UTC) | Stage | Count | Base Image | Description |
 |------------|-------|-------|------------|-------------|
@@ -200,7 +200,7 @@ Images are built in stages to optimize resource usage and leverage layer caching
 | 06:00 | Docker-in-Docker | 48 | *-common/*-lang | Images with DinD support |
 | 07:30 | Docker-outside | 48 | *-common/*-lang | Images with DooD support |
 
-**Total**: 150 images built over ~8 hours with maximum layer reuse
+**Total**: 150 images built every Wednesday over ~8 hours with maximum layer reuse
 
 ### Build Optimization
 
@@ -212,7 +212,7 @@ Images are built in stages to optimize resource usage and leverage layer caching
 
 ### Maintenance
 
-- 🧹 **Weekly Cleanup**: Old versions cleaned up every Sunday (keeping last 3 versions)
+- 🧹 **Monthly Cleanup**: Old versions cleaned up on the 20th of each month (keeping last 3 versions)
 - 🏷️ **Versioning**: Images tagged with both `latest` and `YYYYMMDD.{run_number}`
 - 🔄 **Auto-discovery**: GitHub Actions automatically discover all images from `src/` directory
 - 📊 **Workflow Chaining**: Each stage triggers after previous completes successfully

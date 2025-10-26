@@ -3,7 +3,7 @@ name: Build Docker-in-Docker Images
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 6 * * *"  # 06:00 UTC daily
+    - cron: "0 6 * * 3"  # 06:00 UTC every Wednesday
   push:
     branches: [main]
     paths:

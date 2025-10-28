@@ -1,0 +1,130 @@
+name: Push to Custom Registry
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_name:
+        description: 'Image name to push'
+        required: true
+        type: string
+      source_tag:
+        description: 'Source tag from GHCR (e.g., latest or 20241027.123)'
+        required: true
+        default: 'latest'
+        type: string
+      target_tag:
+        description: 'Target tag for custom registry (leave empty to use source tag)'
+        required: false
+        type: string
+      registry_url:
+        description: 'Custom registry URL (leave empty to use secret)'
+        required: false
+        type: string
+
+jobs:
+  push:
+    name: Push ${{ inputs.image_name }}:${{ inputs.source_tag }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate inputs
+        id: validate
+        run: |
+          # Determine target tag
+          if [ -z "${{ inputs.target_tag }}" ]; then
+            TARGET_TAG="${{ inputs.source_tag }}"
+          else
+            TARGET_TAG="${{ inputs.target_tag }}"
+          fi
+          echo "target_tag=$TARGET_TAG" >> $GITHUB_OUTPUT
+          
+          # Determine registry URL
+          if [ -z "${{ inputs.registry_url }}" ]; then
+            REGISTRY_URL="${{ secrets.CUSTOM_REGISTRY_URL }}"
+          else
+            REGISTRY_URL="${{ inputs.registry_url }}"
+          fi
+          echo "registry_url=$REGISTRY_URL" >> $GITHUB_OUTPUT
+          
+          # Validate registry credentials
+          if [ -z "$REGISTRY_URL" ]; then
+            echo "Error: Registry URL is not set. Please provide it via input or CUSTOM_REGISTRY_URL secret"
+            exit 1
+          fi
+          
+          if [ -z "${{ secrets.CUSTOM_REGISTRY_USERNAME }}" ]; then
+            echo "Error: CUSTOM_REGISTRY_USERNAME secret is not set"
+            exit 1
+          fi
+          
+          if [ -z "${{ secrets.CUSTOM_REGISTRY_PASSWORD }}" ]; then
+            echo "Error: CUSTOM_REGISTRY_PASSWORD secret is not set"
+            exit 1
+          fi
+          
+          # Validate that image exists in metadata
+          if ! find src -name "metadata.json" -type f -exec jq -e --arg name "${{ inputs.image_name }}" '.name == $name' {} \; -quit | grep -q true; then
+            echo "Error: Image '${{ inputs.image_name }}' not found in metadata files"
+            exit 1
+          fi
+          
+          echo "Validated inputs:"
+          echo "  Source: ghcr.io/${{ github.repository }}/${{ inputs.image_name }}:${{ inputs.source_tag }}"
+          echo "  Target: $REGISTRY_URL/${{ inputs.image_name }}:$TARGET_TAG"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to Custom Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ steps.validate.outputs.registry_url }}
+          username: ${{ secrets.CUSTOM_REGISTRY_USERNAME }}
+          password: ${{ secrets.CUSTOM_REGISTRY_PASSWORD }}
+
+      - name: Pull image from GHCR
+        run: |
+          SOURCE="ghcr.io/${{ github.repository }}/${{ inputs.image_name }}:${{ inputs.source_tag }}"
+          
+          echo "Pulling image from GHCR..."
+          echo "  Source: $SOURCE"
+          
+          docker pull "$SOURCE"
+          
+          echo "✓ Image pulled successfully"
+
+      - name: Tag and push to custom registry
+        run: |
+          SOURCE="ghcr.io/${{ github.repository }}/${{ inputs.image_name }}:${{ inputs.source_tag }}"
+          TARGET="${{ steps.validate.outputs.registry_url }}/${{ inputs.image_name }}:${{ steps.validate.outputs.target_tag }}"
+          
+          echo "Tagging and pushing image..."
+          echo "  From: $SOURCE"
+          echo "  To: $TARGET"
+          
+          docker tag "$SOURCE" "$TARGET"
+          docker push "$TARGET"
+          
+          echo "✓ Image successfully pushed to custom registry"
+
+      - name: Verify image
+        run: |
+          TARGET="${{ steps.validate.outputs.registry_url }}/${{ inputs.image_name }}:${{ steps.validate.outputs.target_tag }}"
+          
+          echo "Verifying image in custom registry..."
+          docker manifest inspect "$TARGET"
+          
+          echo "✓ Image verified successfully"

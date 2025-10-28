@@ -185,6 +185,56 @@ src/
 - ⚙️ **[arch-devcontainer-features](https://github.com/zyrakq/arch-devcontainer-features)** - Dev Container features for Arch Linux
 - 🌟 **[bartventer/devcontainer-images](https://github.com/bartventer/devcontainer-images)** - Project that inspired this repository
 
+## 🔄 Push to Custom Registry
+
+### Manual Image Push
+
+You can manually push any built image from GitHub Container Registry to your custom registry using the **Push to Custom Registry** workflow.
+
+#### Setup
+
+1. Add the following secrets to your repository (Settings → Secrets and variables → Actions):
+   - `CUSTOM_REGISTRY_URL` - Your registry URL (e.g., `registry.example.com`)
+   - `CUSTOM_REGISTRY_USERNAME` - Username for authentication
+   - `CUSTOM_REGISTRY_PASSWORD` - Password or token for authentication
+
+#### Usage
+
+1. Go to **Actions** → **Push to Custom Registry**
+2. Click **Run workflow**
+3. Fill in the parameters:
+   - **Image name**: Name of the image to push (e.g., `arch-base-node`)
+   - **Source tag**: Tag from GHCR (e.g., `latest` or `20241027.123`)
+   - **Target tag**: Tag for custom registry (optional, defaults to source tag)
+   - **Registry URL**: Override registry URL (optional, uses secret by default)
+4. Click **Run workflow**
+
+The workflow will:
+
+- Pull the complete multi-arch image from GHCR
+- Push it to your custom registry
+- Verify the push was successful
+
+#### Example
+
+To push `arch-base-node:latest` to your registry:
+
+```txt
+Image name: arch-base-node
+Source tag: latest
+Target tag: (leave empty or specify custom tag)
+Registry URL: (leave empty to use secret)
+```
+
+Result: `registry.example.com/arch-base-node:latest` (all platforms)
+
+#### Benefits
+
+- **Faster pulls**: Images cached in your local registry
+- **Reduced latency**: No cross-border network delays
+- **Selective sync**: Push only the images you need
+- **Complete images**: Full multi-arch support preserved
+
 ## ⏰ Build & Maintenance
 
 ### Staged Build Schedule

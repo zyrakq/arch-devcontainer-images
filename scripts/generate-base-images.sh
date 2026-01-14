@@ -6,8 +6,7 @@
 set -e
 
 # Common feature configurations
-COMMON_UTILS_FEATURE='
-    "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
+COMMON_UTILS_FEATURE='"ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
       "username": "vscode",
       "additionalPackages": "base-devel",
       "installZsh": true,
@@ -15,27 +14,11 @@ COMMON_UTILS_FEATURE='
       "configureZshAsDefaultShell": true
     }'
 
-NODE_FEATURE='"ghcr.io/zyrakq/arch-devcontainer-features/node:1": {
-      "installYarn": true,
-      "installPnpm": true,
-      "globalPackages": "typescript,nodemon"
-    }'
-
-RUST_FEATURE='"ghcr.io/zyrakq/arch-devcontainer-features/rust:1": {}'
-
-GO_FEATURE='"ghcr.io/bartventer/arch-devcontainer-features/go:1": {}'
-
-DOTNET_FEATURE='"ghcr.io/zyrakq/arch-devcontainer-features/dotnet:1": {
-      "installAspNetRuntime": true,
-      "installEntityFramework": true,
-      "installGlobalTools": "dotnet-format,dotnet-outdated-tool"
-    }'
-
 DIND_FEATURE='"ghcr.io/bartventer/arch-devcontainer-features/docker-in-docker:1": {}'
 
 DOOD_FEATURE='"ghcr.io/bartventer/arch-devcontainer-features/docker-outside-of-docker:1": {}'
 
-# Create devcontainer.json with base image
+# Create devcontainer.json with base image and features
 create_devcontainer_from_image() {
     local base_image="$1"
     local features="$2"
@@ -80,11 +63,11 @@ create_metadata() {
 EOF
 }
 
-echo "Generating arch-base base images..."
+echo "Generating arch-base images..."
 
-# arch-base (no features) - uses Dockerfile
-mkdir -p src/arch-base/base/arch-base/.devcontainer
-cat > "src/arch-base/base/arch-base/.devcontainer/Dockerfile" << 'EOF'
+# ===== 1. arch-base (base with Dockerfile) =====
+mkdir -p src/arch-base/arch-base/.devcontainer
+cat > "src/arch-base/arch-base/.devcontainer/Dockerfile" << 'EOF'
 ARG VARIANT="latest"
 FROM docker.io/archlinux/archlinux:${VARIANT}
 
@@ -105,7 +88,7 @@ RUN pacman-key --init && \
     pacman -Su --noconfirm --disable-download-timeout
 EOF
 
-cat > "src/arch-base/base/arch-base/.devcontainer/devcontainer.json" << 'EOF'
+cat > "src/arch-base/arch-base/.devcontainer/devcontainer.json" << 'EOF'
 {
   "build": {
     "dockerfile": "./Dockerfile",
@@ -118,198 +101,40 @@ cat > "src/arch-base/base/arch-base/.devcontainer/devcontainer.json" << 'EOF'
 }
 EOF
 
-# arch-base-common (FROM arch-base:latest) - uses image
-mkdir -p src/arch-base/base/arch-base-common/.devcontainer
-cat > "src/arch-base/base/arch-base-common/.devcontainer/devcontainer.json" << 'EOF'
-{
-  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base:latest",
-  "features": {
-    "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
-      "username": "vscode",
-      "additionalPackages": "base-devel",
-      "installZsh": true,
-      "installOhMyZsh": true,
-      "configureZshAsDefaultShell": true
-    }
-  },
-  "remoteUser": "vscode"
-}
-EOF
+create_metadata "arch-base" \
+    "Minimal Arch Linux base image without pre-installed features" \
+    "src/arch-base/arch-base/metadata.json"
 
-echo "Generating arch-base lang images..."
+# ===== 2. arch-base-common (FROM arch-base:latest + common-utils) =====
+mkdir -p src/arch-base/arch-base-common/.devcontainer
+create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base:latest" \
+    "${COMMON_UTILS_FEATURE}" \
+    "src/arch-base/arch-base-common/.devcontainer/devcontainer.json"
 
-# Single language images (FROM arch-base-common:latest)
-BASE_COMMON_IMAGE="ghcr.io/zyrakq/arch-devcontainer-images/arch-base-common:latest"
+create_metadata "arch-base-common" \
+    "Arch Linux base image with common development tools" \
+    "src/arch-base/arch-base-common/metadata.json"
 
-mkdir -p src/arch-base/lang/arch-base-node/.devcontainer
-create_devcontainer_from_image "$BASE_COMMON_IMAGE" "${NODE_FEATURE}" \
-    "src/arch-base/lang/arch-base-node/.devcontainer/devcontainer.json"
-create_metadata "arch-base-node" \
-    "Arch Linux base image with Node.js LTS and common development tools" \
-    "src/arch-base/lang/arch-base-node/metadata.json"
+# ===== 3. arch-base-dind (FROM arch-base-common:latest + dind) =====
+mkdir -p src/arch-base/arch-base-dind/.devcontainer
+create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-common:latest" \
+    "${DIND_FEATURE}" \
+    "src/arch-base/arch-base-dind/.devcontainer/devcontainer.json"
 
-mkdir -p src/arch-base/lang/arch-base-rust/.devcontainer
-create_devcontainer_from_image "$BASE_COMMON_IMAGE" "${RUST_FEATURE}" \
-    "src/arch-base/lang/arch-base-rust/.devcontainer/devcontainer.json"
-create_metadata "arch-base-rust" \
-    "Arch Linux base image with Rust and common development tools" \
-    "src/arch-base/lang/arch-base-rust/metadata.json"
-
-mkdir -p src/arch-base/lang/arch-base-go/.devcontainer
-create_devcontainer_from_image "$BASE_COMMON_IMAGE" "${GO_FEATURE}" \
-    "src/arch-base/lang/arch-base-go/.devcontainer/devcontainer.json"
-create_metadata "arch-base-go" \
-    "Arch Linux base image with Go and common development tools" \
-    "src/arch-base/lang/arch-base-go/metadata.json"
-
-mkdir -p src/arch-base/lang/arch-base-dotnet/.devcontainer
-create_devcontainer_from_image "$BASE_COMMON_IMAGE" "${DOTNET_FEATURE}" \
-    "src/arch-base/lang/arch-base-dotnet/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dotnet" \
-    "Arch Linux base image with .NET SDK and common development tools" \
-    "src/arch-base/lang/arch-base-dotnet/metadata.json"
-
-# Node combinations (FROM arch-base-node:latest)
-BASE_NODE_IMAGE="ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node:latest"
-BASE_GO_IMAGE="ghcr.io/zyrakq/arch-devcontainer-images/arch-base-go:latest"
-
-mkdir -p src/arch-base/lang/arch-base-node-rust/.devcontainer
-create_devcontainer_from_image "$BASE_NODE_IMAGE" "${RUST_FEATURE}" \
-    "src/arch-base/lang/arch-base-node-rust/.devcontainer/devcontainer.json"
-create_metadata "arch-base-node-rust" \
-    "Arch Linux base image with Node.js and Rust for fullstack development" \
-    "src/arch-base/lang/arch-base-node-rust/metadata.json"
-
-mkdir -p src/arch-base/lang/arch-base-node-go/.devcontainer
-create_devcontainer_from_image "$BASE_GO_IMAGE" "${NODE_FEATURE}" \
-    "src/arch-base/lang/arch-base-node-go/.devcontainer/devcontainer.json"
-create_metadata "arch-base-node-go" \
-    "Arch Linux base image with Node.js and Go for fullstack development" \
-    "src/arch-base/lang/arch-base-node-go/metadata.json"
-
-mkdir -p src/arch-base/lang/arch-base-node-dotnet/.devcontainer
-create_devcontainer_from_image "$BASE_NODE_IMAGE" "${DOTNET_FEATURE}" \
-    "src/arch-base/lang/arch-base-node-dotnet/.devcontainer/devcontainer.json"
-create_metadata "arch-base-node-dotnet" \
-    "Arch Linux base image with Node.js and .NET for fullstack development" \
-    "src/arch-base/lang/arch-base-node-dotnet/metadata.json"
-
-echo "Generating arch-base dind images..."
-
-# DinD images use lang images as base
-mkdir -p src/arch-base/dind/arch-base-dind/.devcontainer
-create_devcontainer_from_image "$BASE_COMMON_IMAGE" "${DIND_FEATURE}" \
-    "src/arch-base/dind/arch-base-dind/.devcontainer/devcontainer.json"
 create_metadata "arch-base-dind" \
     "Arch Linux base image with Docker-in-Docker support" \
-    "src/arch-base/dind/arch-base-dind/metadata.json"
+    "src/arch-base/arch-base-dind/metadata.json"
 
-mkdir -p src/arch-base/dind/arch-base-dind-node/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node:latest" "${DIND_FEATURE}" \
-    "src/arch-base/dind/arch-base-dind-node/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dind-node" \
-    "Arch Linux base image with Docker-in-Docker and Node.js" \
-    "src/arch-base/dind/arch-base-dind-node/metadata.json"
+# ===== 4. arch-base-dood (FROM arch-base-common:latest + dood) =====
+mkdir -p src/arch-base/arch-base-dood/.devcontainer
+create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-common:latest" \
+    "${DOOD_FEATURE}" \
+    "src/arch-base/arch-base-dood/.devcontainer/devcontainer.json"
 
-mkdir -p src/arch-base/dind/arch-base-dind-rust/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-rust:latest" "${DIND_FEATURE}" \
-    "src/arch-base/dind/arch-base-dind-rust/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dind-rust" \
-    "Arch Linux base image with Docker-in-Docker and Rust" \
-    "src/arch-base/dind/arch-base-dind-rust/metadata.json"
-
-mkdir -p src/arch-base/dind/arch-base-dind-go/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-go:latest" "${DIND_FEATURE}" \
-    "src/arch-base/dind/arch-base-dind-go/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dind-go" \
-    "Arch Linux base image with Docker-in-Docker and Go" \
-    "src/arch-base/dind/arch-base-dind-go/metadata.json"
-
-mkdir -p src/arch-base/dind/arch-base-dind-dotnet/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dotnet:latest" "${DIND_FEATURE}" \
-    "src/arch-base/dind/arch-base-dind-dotnet/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dind-dotnet" \
-    "Arch Linux base image with Docker-in-Docker and .NET SDK" \
-    "src/arch-base/dind/arch-base-dind-dotnet/metadata.json"
-
-mkdir -p src/arch-base/dind/arch-base-dind-node-rust/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node-rust:latest" "${DIND_FEATURE}" \
-    "src/arch-base/dind/arch-base-dind-node-rust/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dind-node-rust" \
-    "Arch Linux base image with Docker-in-Docker, Node.js and Rust for fullstack development" \
-    "src/arch-base/dind/arch-base-dind-node-rust/metadata.json"
-
-mkdir -p src/arch-base/dind/arch-base-dind-node-go/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node-go:latest" "${DIND_FEATURE}" \
-    "src/arch-base/dind/arch-base-dind-node-go/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dind-node-go" \
-    "Arch Linux base image with Docker-in-Docker, Node.js and Go for fullstack development" \
-    "src/arch-base/dind/arch-base-dind-node-go/metadata.json"
-
-mkdir -p src/arch-base/dind/arch-base-dind-node-dotnet/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node-dotnet:latest" "${DIND_FEATURE}" \
-    "src/arch-base/dind/arch-base-dind-node-dotnet/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dind-node-dotnet" \
-    "Arch Linux base image with Docker-in-Docker, Node.js and .NET for fullstack development" \
-    "src/arch-base/dind/arch-base-dind-node-dotnet/metadata.json"
-
-echo "Generating arch-base dood images..."
-
-# DooD images use lang images as base
-mkdir -p src/arch-base/dood/arch-base-dood/.devcontainer
-create_devcontainer_from_image "$BASE_COMMON_IMAGE" "${DOOD_FEATURE}" \
-    "src/arch-base/dood/arch-base-dood/.devcontainer/devcontainer.json"
 create_metadata "arch-base-dood" \
     "Arch Linux base image with Docker-outside-of-Docker support" \
-    "src/arch-base/dood/arch-base-dood/metadata.json"
-
-mkdir -p src/arch-base/dood/arch-base-dood-node/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node:latest" "${DOOD_FEATURE}" \
-    "src/arch-base/dood/arch-base-dood-node/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dood-node" \
-    "Arch Linux base image with Docker-outside-of-Docker and Node.js" \
-    "src/arch-base/dood/arch-base-dood-node/metadata.json"
-
-mkdir -p src/arch-base/dood/arch-base-dood-rust/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-rust:latest" "${DOOD_FEATURE}" \
-    "src/arch-base/dood/arch-base-dood-rust/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dood-rust" \
-    "Arch Linux base image with Docker-outside-of-Docker and Rust" \
-    "src/arch-base/dood/arch-base-dood-rust/metadata.json"
-
-mkdir -p src/arch-base/dood/arch-base-dood-go/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-go:latest" "${DOOD_FEATURE}" \
-    "src/arch-base/dood/arch-base-dood-go/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dood-go" \
-    "Arch Linux base image with Docker-outside-of-Docker and Go" \
-    "src/arch-base/dood/arch-base-dood-go/metadata.json"
-
-mkdir -p src/arch-base/dood/arch-base-dood-dotnet/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dotnet:latest" "${DOOD_FEATURE}" \
-    "src/arch-base/dood/arch-base-dood-dotnet/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dood-dotnet" \
-    "Arch Linux base image with Docker-outside-of-Docker and .NET SDK" \
-    "src/arch-base/dood/arch-base-dood-dotnet/metadata.json"
-
-mkdir -p src/arch-base/dood/arch-base-dood-node-rust/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node-rust:latest" "${DOOD_FEATURE}" \
-    "src/arch-base/dood/arch-base-dood-node-rust/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dood-node-rust" \
-    "Arch Linux base image with Docker-outside-of-Docker, Node.js and Rust for fullstack development" \
-    "src/arch-base/dood/arch-base-dood-node-rust/metadata.json"
-
-mkdir -p src/arch-base/dood/arch-base-dood-node-go/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node-go:latest" "${DOOD_FEATURE}" \
-    "src/arch-base/dood/arch-base-dood-node-go/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dood-node-go" \
-    "Arch Linux base image with Docker-outside-of-Docker, Node.js and Go for fullstack development" \
-    "src/arch-base/dood/arch-base-dood-node-go/metadata.json"
-
-mkdir -p src/arch-base/dood/arch-base-dood-node-dotnet/.devcontainer
-create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node-dotnet:latest" "${DOOD_FEATURE}" \
-    "src/arch-base/dood/arch-base-dood-node-dotnet/.devcontainer/devcontainer.json"
-create_metadata "arch-base-dood-node-dotnet" \
-    "Arch Linux base image with Docker-outside-of-Docker, Node.js and .NET for fullstack development" \
-    "src/arch-base/dood/arch-base-dood-node-dotnet/metadata.json"
+    "src/arch-base/arch-base-dood/metadata.json"
 
 echo "All arch-base images generated successfully!"
+echo "Total: 4 images (base, common, dind, dood)"
+BASE_COMMON_IMAGE="ghcr.io/zyrakq/arch-devcontainer-images/arch-base-common:latest"

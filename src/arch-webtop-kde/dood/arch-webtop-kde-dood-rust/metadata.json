@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-kde-dood-rust",
-  "description": "Arch Linux webtop image with KDE, Docker-outside-of-Docker and Rust",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

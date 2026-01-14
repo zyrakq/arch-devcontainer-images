@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-i3-dind-node",
-  "description": "Arch Linux webtop image with I3, Docker-in-Docker and Node.js",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

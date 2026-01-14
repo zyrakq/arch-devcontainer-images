@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-kde-dood-node",
-  "description": "Arch Linux webtop image with KDE, Docker-outside-of-Docker and Node.js",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

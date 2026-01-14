@@ -3,14 +3,14 @@ name: Build Docker-in-Docker Images
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 6 * * 3"  # 06:00 UTC every Wednesday
+    - cron: "0 3 * * 3"  # 03:00 UTC every Wednesday
   push:
     branches: [main]
     paths:
-      - 'src/*/dind/**'
+      - 'src/*/*-dind/**'
       - '.github/workflows/build-dind.yml'
   workflow_run:
-    workflows: ["Build Language Combination Images"]
+    workflows: ["Build Base Common Images"]
     types: [completed]
     branches: [main]
 
@@ -28,10 +28,15 @@ jobs:
         id: set-matrix
         run: |
           # Find all DinD images
-          images=$(find src/*/dind -name "metadata.json" -type f | while read -r metadata; do
+          images=$(find src -name "metadata.json" -type f | while read -r metadata; do
             dir=$(dirname "$metadata")
             image_path="${dir#src/}"
-            echo "$image_path"
+            image_name=$(basename "$dir")
+            
+            # Include only *-dind images
+            if [[ "$image_name" == *-dind ]]; then
+              echo "$image_path"
+            fi
           done | jq -R -s -c 'split("\n") | map(select(length > 0))')
           
           echo "matrix=$images" >> $GITHUB_OUTPUT

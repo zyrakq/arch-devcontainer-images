@@ -1,7 +1,0 @@
-{
-  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-common:latest",
-  "features": {
-    "ghcr.io/zyrakq/arch-devcontainer-features/rust:1": {}
-  },
-  "remoteUser": "vscode"
-}

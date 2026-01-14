@@ -1,7 +1,0 @@
-{
-  "name": "arch-base-dood-node",
-  "description": "Arch Linux base image with Docker-outside-of-Docker and Node.js",
-  "platforms": ["linux/amd64", "linux/arm64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

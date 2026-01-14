@@ -1,7 +1,0 @@
-{
-  "name": "arch-base-node",
-  "description": "Arch Linux base image with Node.js LTS and common development tools",
-  "platforms": ["linux/amd64", "linux/arm64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

@@ -3,14 +3,14 @@ name: Build Docker-outside-of-Docker Images
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 7 * * 3"  # 07:30 UTC every Wednesday
+    - cron: "30 4 * * 3"  # 04:30 UTC every Wednesday
   push:
     branches: [main]
     paths:
-      - 'src/*/dood/**'
+      - 'src/*/*-dood/**'
       - '.github/workflows/build-dood.yml'
   workflow_run:
-    workflows: ["Build Language Combination Images"]
+    workflows: ["Build Base Common Images"]
     types: [completed]
     branches: [main]
 
@@ -28,10 +28,15 @@ jobs:
         id: set-matrix
         run: |
           # Find all DooD images
-          images=$(find src/*/dood -name "metadata.json" -type f | while read -r metadata; do
+          images=$(find src -name "metadata.json" -type f | while read -r metadata; do
             dir=$(dirname "$metadata")
             image_path="${dir#src/}"
-            echo "$image_path"
+            image_name=$(basename "$dir")
+            
+            # Include only *-dood images
+            if [[ "$image_name" == *-dood ]]; then
+              echo "$image_path"
+            fi
           done | jq -R -s -c 'split("\n") | map(select(length > 0))')
           
           echo "matrix=$images" >> $GITHUB_OUTPUT

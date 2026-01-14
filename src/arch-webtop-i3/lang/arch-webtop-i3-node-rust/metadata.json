@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-i3-node-rust",
-  "description": "Arch Linux webtop image with I3, Node.js and Rust for fullstack development",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

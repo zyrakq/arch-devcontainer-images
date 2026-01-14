@@ -1,7 +1,0 @@
-{
-  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dotnet:latest",
-  "features": {
-    "ghcr.io/bartventer/arch-devcontainer-features/docker-in-docker:1": {}
-  },
-  "remoteUser": "vscode"
-}

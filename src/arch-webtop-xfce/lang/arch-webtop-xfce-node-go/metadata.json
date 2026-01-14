@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-xfce-node-go",
-  "description": "Arch Linux webtop image with XFCE, Node.js and Go for fullstack development",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

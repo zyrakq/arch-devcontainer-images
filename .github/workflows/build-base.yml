@@ -7,7 +7,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'src/*/base/**'
+      - 'src/*/arch-*/**'
+      - 'src/*/arch-webtop-*/**'
+      - '!src/*/*-common/**'
+      - '!src/*/*-dind/**'
+      - '!src/*/*-dood/**'
       - '.github/workflows/build-base.yml'
 
 jobs:
@@ -23,20 +27,20 @@ jobs:
       - name: Discover base image paths
         id: set-matrix
         run: |
-          # Find all base images (in base/ directories, excluding *-common)
-          images=$(find src/*/base -name "metadata.json" -type f | while read -r metadata; do
+          # Find all base images (excluding *-common, *-dind, *-dood)
+          images=$(find src -name "metadata.json" -type f | while read -r metadata; do
             dir=$(dirname "$metadata")
             image_path="${dir#src/}"
             image_name=$(basename "$dir")
             
-            # Exclude *-common images
-            if [[ "$image_name" != *-common ]]; then
+            # Include only base images (without suffixes)
+            if [[ "$image_name" != *-common ]] && [[ "$image_name" != *-dind ]] && [[ "$image_name" != *-dood ]]; then
               echo "$image_path"
             fi
           done | jq -R -s -c 'split("\n") | map(select(length > 0))')
           
           echo "matrix=$images" >> $GITHUB_OUTPUT
-          echo "Found base images (without common): $images"
+          echo "Found base images: $images"
 
   build:
     name: Build ${{ matrix.image }}

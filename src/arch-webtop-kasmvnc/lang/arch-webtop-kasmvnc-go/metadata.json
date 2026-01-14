@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-kasmvnc-go",
-  "description": "Arch Linux webtop image with KASMVNC and Go",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

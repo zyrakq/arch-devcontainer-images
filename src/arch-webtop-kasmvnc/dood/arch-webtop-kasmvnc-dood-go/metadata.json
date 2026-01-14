@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-kasmvnc-dood-go",
-  "description": "Arch Linux webtop image with KASMVNC, Docker-outside-of-Docker and Go",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

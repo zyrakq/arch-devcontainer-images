@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-xfce-dood-node-dotnet",
-  "description": "Arch Linux webtop image with XFCE, Docker-outside-of-Docker, Node.js and .NET for fullstack development",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

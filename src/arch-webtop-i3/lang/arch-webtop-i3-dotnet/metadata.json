@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-i3-dotnet",
-  "description": "Arch Linux webtop image with I3 and .NET SDK",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

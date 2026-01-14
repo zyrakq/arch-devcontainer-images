@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-xfce-dotnet",
-  "description": "Arch Linux webtop image with XFCE and .NET SDK",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

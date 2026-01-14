@@ -8,50 +8,12 @@ Pre-built Docker images for VS Code Dev Containers based on Arch Linux, organize
 
 Minimal Arch Linux images without desktop environment.
 
-#### Base Images
-
 | Image | Description | Registry |
 |-------|-------------|----------|
 | arch-base | Minimal Arch Linux without features | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base` |
 | arch-base-common | Arch Linux with common-utils | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-common` |
-
-#### Language Images
-
-| Image | Languages | Registry |
-|-------|-----------|----------|
-| arch-base-node | Node.js LTS (yarn, pnpm, typescript, nodemon) | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node` |
-| arch-base-rust | Rust stable | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-rust` |
-| arch-base-go | Go latest | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-go` |
-| arch-base-dotnet | .NET SDK (ASP.NET, EF, tools) | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dotnet` |
-| arch-base-node-rust | Node.js + Rust | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node-rust` |
-| arch-base-node-go | Node.js + Go | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node-go` |
-| arch-base-node-dotnet | Node.js + .NET | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node-dotnet` |
-
-#### Docker-in-Docker Images
-
-| Image | Features | Registry |
-|-------|----------|----------|
-| arch-base-dind | Docker-in-Docker | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dind` |
-| arch-base-dind-node | DinD + Node.js | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dind-node` |
-| arch-base-dind-rust | DinD + Rust | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dind-rust` |
-| arch-base-dind-go | DinD + Go | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dind-go` |
-| arch-base-dind-dotnet | DinD + .NET | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dind-dotnet` |
-| arch-base-dind-node-rust | DinD + Node.js + Rust | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dind-node-rust` |
-| arch-base-dind-node-go | DinD + Node.js + Go | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dind-node-go` |
-| arch-base-dind-node-dotnet | DinD + Node.js + .NET | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dind-node-dotnet` |
-
-#### Docker-outside-of-Docker Images
-
-| Image | Features | Registry |
-|-------|----------|----------|
-| arch-base-dood | Docker-outside-of-Docker | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood` |
-| arch-base-dood-node | DooD + Node.js | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood-node` |
-| arch-base-dood-rust | DooD + Rust | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood-rust` |
-| arch-base-dood-go | DooD + Go | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood-go` |
-| arch-base-dood-dotnet | DooD + .NET | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood-dotnet` |
-| arch-base-dood-node-rust | DooD + Node.js + Rust | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood-node-rust` |
-| arch-base-dood-node-go | DooD + Node.js + Go | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood-node-go` |
-| arch-base-dood-node-dotnet | DooD + Node.js + .NET | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood-node-dotnet` |
+| arch-base-dind | Arch Linux with Docker-in-Docker | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dind` |
+| arch-base-dood | Arch Linux with Docker-outside-of-Docker | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood` |
 
 ### 🖥️ arch-webtop Families
 
@@ -65,58 +27,26 @@ Desktop environment images with web-based access. Each desktop environment has i
 - **arch-webtop-mate** - MATE desktop
 - **arch-webtop-xfce** - XFCE desktop
 
-#### Image Categories (for each DE)
+#### Image Structure (for each DE)
 
-Each desktop environment family includes:
+Each desktop environment family includes 4 images:
 
-##### Webtop Base (2 images)
-
-- `arch-webtop-{de}` - Base desktop environment
-- `arch-webtop-{de}-common` - DE + common-utils
-
-##### Webtop with Languages (7 images)
-
-- `arch-webtop-{de}-node` - DE + Node.js (yarn, pnpm, typescript, nodemon)
-- `arch-webtop-{de}-rust` - DE + Rust
-- `arch-webtop-{de}-go` - DE + Go
-- `arch-webtop-{de}-dotnet` - DE + .NET (ASP.NET, EF, tools)
-- `arch-webtop-{de}-node-rust` - DE + Node.js + Rust
-- `arch-webtop-{de}-node-go` - DE + Node.js + Go
-- `arch-webtop-{de}-node-dotnet` - DE + Node.js + .NET
-
-##### Webtop with Docker-in-Docker (8 images)
-
-- `arch-webtop-{de}-dind` - DE + DinD
-- `arch-webtop-{de}-dind-node` - DE + DinD + Node.js
-- `arch-webtop-{de}-dind-rust` - DE + DinD + Rust
-- `arch-webtop-{de}-dind-go` - DE + DinD + Go
-- `arch-webtop-{de}-dind-dotnet` - DE + DinD + .NET
-- `arch-webtop-{de}-dind-node-rust` - DE + DinD + Node.js + Rust
-- `arch-webtop-{de}-dind-node-go` - DE + DinD + Node.js + Go
-- `arch-webtop-{de}-dind-node-dotnet` - DE + DinD + Node.js + .NET
-
-##### Webtop with Docker-outside-of-Docker (8 images)
-
-- `arch-webtop-{de}-dood` - DE + DooD
-- `arch-webtop-{de}-dood-node` - DE + DooD + Node.js
-- `arch-webtop-{de}-dood-rust` - DE + DooD + Rust
-- `arch-webtop-{de}-dood-go` - DE + DooD + Go
-- `arch-webtop-{de}-dood-dotnet` - DE + DooD + .NET
-- `arch-webtop-{de}-dood-node-rust` - DE + DooD + Node.js + Rust
-- `arch-webtop-{de}-dood-node-go` - DE + DooD + Node.js + Go
-- `arch-webtop-{de}-dood-node-dotnet` - DE + DooD + Node.js + .NET
+| Image | Description |
+|-------|-------------|
+| arch-webtop-{de} | Base desktop environment |
+| arch-webtop-{de}-common | DE + common-utils |
+| arch-webtop-{de}-dind | DE + Docker-in-Docker |
+| arch-webtop-{de}-dood | DE + Docker-outside-of-Docker |
 
 > **Note**: Replace `{de}` with: `kasmvnc`, `kde`, `i3`, `mate`, or `xfce`
->
-> **Total per DE**: 25 images (2 base + 7 lang + 8 dind + 8 dood)
 
 #### Example Registry Paths
 
 ```sh
 ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-kde
-ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-kde-node
+ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-kde-common
 ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-i3-dind
-ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-xfce-dood-node
+ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-xfce-dood
 ```
 
 ## 🚀 Usage
@@ -125,7 +55,7 @@ ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-xfce-dood-node
 
 ```json
 {
-  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-node:latest"
+  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-common:latest"
 }
 ```
 
@@ -142,10 +72,27 @@ ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-xfce-dood-node
 
 ```json
 {
-  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood-node:latest",
+  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood:latest",
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ]
+}
+```
+
+### Adding Language Support
+
+You can add language support to any image using devcontainer features:
+
+```json
+{
+  "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base-common:latest",
+  "features": {
+    "ghcr.io/zyrakq/arch-devcontainer-features/node:1": {
+      "installYarn": true,
+      "installPnpm": true
+    },
+    "ghcr.io/zyrakq/arch-devcontainer-features/rust:2": {}
+  }
 }
 ```
 
@@ -153,21 +100,24 @@ ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-xfce-dood-node
 
 ```sh
 src/
-├── arch-base/              # Minimal Arch Linux family
-│   ├── base/              # Base images
-│   ├── lang/              # Language-specific images
-│   ├── dind/              # Docker-in-Docker variants
-│   ├── dood/              # Docker-outside-of-Docker variants
-│   └── specialized/       # Specialized images
-├── arch-webtop-kasmvnc/   # KasmVNC desktop family
-├── arch-webtop-kde/       # KDE Plasma desktop family
-├── arch-webtop-i3/        # i3 window manager family
-├── arch-webtop-mate/      # MATE desktop family
-├── arch-webtop-xfce/      # XFCE desktop family
+├── arch-base/              # Minimal Arch Linux family (4 images)
+│   ├── arch-base/         # Base image
+│   ├── arch-base-common/  # Base + common-utils
+│   ├── arch-base-dind/    # Base + Docker-in-Docker
+│   └── arch-base-dood/    # Base + Docker-outside-of-Docker
+├── arch-webtop-kasmvnc/   # KasmVNC desktop family (4 images)
+├── arch-webtop-kde/       # KDE Plasma desktop family (4 images)
+├── arch-webtop-i3/        # i3 window manager family (4 images)
+├── arch-webtop-mate/      # MATE desktop family (4 images)
+├── arch-webtop-xfce/      # XFCE desktop family (4 images)
 └── arch-project/          # Project-specific images
 ```
 
+**Total**: 24 images (4 base + 20 webtop)
+
 ## 🔧 Features Used
+
+Features can be added to any base image to customize your environment:
 
 | Feature | Source |
 |---------|--------|
@@ -203,7 +153,7 @@ You can manually push any built image from GitHub Container Registry to your cus
 1. Go to **Actions** → **Push to Custom Registry**
 2. Click **Run workflow**
 3. Fill in the parameters:
-   - **Image name**: Name of the image to push (e.g., `arch-base-node`)
+   - **Image name**: Name of the image to push (e.g., `arch-base-common`)
    - **Source tag**: Tag from GHCR (e.g., `latest` or `20241027.123`)
    - **Target tag**: Tag for custom registry (optional, defaults to source tag)
    - **Registry URL**: Override registry URL (optional, uses secret by default)
@@ -217,16 +167,16 @@ The workflow will:
 
 #### Example
 
-To push `arch-base-node:latest` to your registry:
+To push `arch-base-common:latest` to your registry:
 
 ```txt
-Image name: arch-base-node
+Image name: arch-base-common
 Source tag: latest
 Target tag: (leave empty or specify custom tag)
 Registry URL: (leave empty to use secret)
 ```
 
-Result: `registry.example.com/arch-base-node:latest` (all platforms)
+Result: `registry.example.com/arch-base-common:latest` (all platforms)
 
 #### Benefits
 
@@ -243,22 +193,20 @@ Images are built weekly on **Wednesday** to optimize resource usage and leverage
 
 | Time (UTC) | Stage | Count | Base Image | Description |
 |------------|-------|-------|------------|-------------|
-| 00:00 | Base | 6 | upstream | Minimal base images from archlinux and linuxserver |
-| 01:30 | Base Common | 6 | *-base:latest | Base images with common-utils feature |
-| 03:00 | Languages | 24 | *-common:latest | Single language images (node, rust, go, dotnet) |
-| 04:30 | Combinations | 18 | *-node:latest | Multi-language combinations (node-rust, node-go, node-dotnet) |
-| 06:00 | Docker-in-Docker | 48 | *-common/*-lang | Images with DinD support |
-| 07:30 | Docker-outside | 48 | *-common/*-lang | Images with DooD support |
+| 00:00 | Base Images | 6 | upstream | Minimal base images from archlinux and linuxserver |
+| 01:30 | Common Utils | 6 | *-base:latest | Base images with common-utils feature |
+| 03:00 | Docker-in-Docker | 6 | *-common:latest | Images with DinD support |
+| 04:30 | Docker-outside-of-Docker | 6 | *-common:latest | Images with DooD support |
 
-**Total**: 150 images built every Wednesday over ~8 hours with maximum layer reuse
+**Total**: 24 images built every Wednesday over ~5 hours with maximum layer reuse
 
 ### Build Optimization
 
 - ⚡ **Layer Reuse**: Each stage builds on previous stages' images
-- 📦 **Reduced Redundancy**: Base system built once, reused 144 times
-- 🔄 **Distributed Load**: Build load spread across 6 time windows
-- 💾 **Bandwidth Savings**: ~69GB saved by not re-downloading base system
-- 🎯 **Smart Base Selection**: Node-Go combinations use Go as base image (Go builds slower than Node.js, optimizing build time and reducing GitHub runner load)
+- 📦 **Reduced Redundancy**: Base system built once, reused in all derived images
+- 🔄 **Distributed Load**: Build load spread across 4 time windows
+- 💾 **Bandwidth Savings**: Significant reduction in bandwidth by not re-downloading base system
+- 🎯 **Minimal Base**: Simplified structure with only essential images
 
 ### Maintenance
 
@@ -270,10 +218,11 @@ Images are built weekly on **Wednesday** to optimize resource usage and leverage
 ## 🎯 Design Principles
 
 - **Family-based Organization**: Each base image type has its own family
-- **Consistent Structure**: All families follow the same category structure
+- **Consistent Structure**: All families follow the same structure (base, common, dind, dood)
 - **No Cache Builds**: Always use latest packages and features
-- **Multi-platform**: Support for `linux/amd64` and `linux/arm64`
-- **Minimal Combinations**: Only Node.js combinations to avoid bloat
+- **Multi-platform**: Support for `linux/amd64` and `linux/arm64` (arch-base) or `linux/amd64` (arch-webtop)
+- **Minimal Images**: Keep base images minimal, add features as needed
+- **Flat Structure**: No nested subdirectories, simplified organization
 
 ## 📄 License
 

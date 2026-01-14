@@ -1,7 +1,0 @@
-{
-  "name": "arch-base",
-  "description": "Minimal Arch Linux base image without pre-installed features",
-  "platforms": ["linux/amd64", "linux/arm64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

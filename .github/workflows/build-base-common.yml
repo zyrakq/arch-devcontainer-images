@@ -7,7 +7,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'src/*/base/*-common/**'
+      - 'src/*/*-common/**'
       - '.github/workflows/build-base-common.yml'
   workflow_run:
     workflows: ["Build Base Images"]
@@ -27,8 +27,8 @@ jobs:
       - name: Discover base-common image paths
         id: set-matrix
         run: |
-          # Find all *-common images in base/ directories
-          images=$(find src/*/base -name "metadata.json" -type f | while read -r metadata; do
+          # Find all *-common images
+          images=$(find src -name "metadata.json" -type f | while read -r metadata; do
             dir=$(dirname "$metadata")
             image_path="${dir#src/}"
             image_name=$(basename "$dir")

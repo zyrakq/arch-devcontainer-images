@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-mate-dind-go",
-  "description": "Arch Linux webtop image with MATE, Docker-in-Docker and Go",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

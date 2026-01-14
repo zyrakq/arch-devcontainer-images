@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-kasmvnc-rust",
-  "description": "Arch Linux webtop image with KASMVNC and Rust",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

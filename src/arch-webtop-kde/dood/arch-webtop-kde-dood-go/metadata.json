@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-kde-dood-go",
-  "description": "Arch Linux webtop image with KDE, Docker-outside-of-Docker and Go",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

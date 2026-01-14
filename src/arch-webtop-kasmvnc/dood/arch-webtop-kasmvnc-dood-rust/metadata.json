@@ -1,7 +1,0 @@
-{
-  "name": "arch-webtop-kasmvnc-dood-rust",
-  "description": "Arch Linux webtop image with KASMVNC, Docker-outside-of-Docker and Rust",
-  "platforms": ["linux/amd64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

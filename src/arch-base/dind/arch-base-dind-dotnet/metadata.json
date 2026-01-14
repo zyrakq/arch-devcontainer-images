@@ -1,7 +1,0 @@
-{
-  "name": "arch-base-dind-dotnet",
-  "description": "Arch Linux base image with Docker-in-Docker and .NET SDK",
-  "platforms": ["linux/amd64", "linux/arm64"],
-  "registry": "ghcr.io",
-  "repository": "zyrakq/arch-devcontainer-images"
-}

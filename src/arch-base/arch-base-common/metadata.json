@@ -1,0 +1,7 @@
+{
+  "name": "arch-base-common",
+  "description": "Arch Linux base image with common development tools",
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "registry": "ghcr.io",
+  "repository": "zyrakq/arch-devcontainer-images"
+}

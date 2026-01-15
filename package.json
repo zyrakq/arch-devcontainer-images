@@ -2,7 +2,23 @@
   "name": "arch-devcontainer-images",
   "version": "1.0.0",
   "description": "Pre-built Arch Linux images for Dev Containers",
-  "private": true,
+  "license": "(Apache-2.0 OR MIT)",
+  "author": "Zyrakq",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zyrakq/arch-devcontainer-images.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zyrakq/arch-devcontainer-images/issues"
+  },
+  "homepage": "https://github.com/zyrakq/arch-devcontainer-images#readme",
+  "keywords": [
+    "arch-linux",
+    "devcontainer",
+    "development-container",
+    "docker",
+    "vscode"
+  ],
   "engines": {
     "node": ">=20.0.0"
   },

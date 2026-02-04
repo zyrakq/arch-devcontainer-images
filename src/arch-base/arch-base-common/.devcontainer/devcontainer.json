@@ -1,6 +1,9 @@
 {
   "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-base:latest",
   "features": {
+    "ghcr.io/zyrakq/arch-devcontainer-features/pacman-mirror:1": {
+      "mode": "reflector"
+    },
     "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
       "username": "vscode",
       "additionalPackages": "base-devel",

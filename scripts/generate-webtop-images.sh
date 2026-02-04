@@ -15,6 +15,10 @@ declare -A WEBTOP_BASES=(
 )
 
 # Common feature configurations for webtop (username: abc)
+PACMAN_MIRROR_FEATURE='"ghcr.io/zyrakq/arch-devcontainer-features/pacman-mirror:1": {
+      "mode": "reflector"
+    }'
+
 COMMON_UTILS_WEBTOP='"ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
       "username": "abc",
       "additionalPackages": "base-devel",
@@ -144,9 +148,10 @@ for de in "${!WEBTOP_BASES[@]}"; do
         "Arch Linux webtop image with ${de^^} desktop environment" \
         "src/arch-webtop-${de}/arch-webtop-${de}/metadata.json"
     
-    # ===== 2. arch-webtop-{de}-common (FROM arch-webtop-{de}:latest + common-utils) =====
+    # ===== 2. arch-webtop-{de}-common (FROM arch-webtop-{de}:latest + pacman-mirror + common-utils) =====
     mkdir -p "src/arch-webtop-${de}/arch-webtop-${de}-common/.devcontainer"
-    create_webtop_devcontainer_from_image "$WEBTOP_BASE" "$COMMON_UTILS_WEBTOP" \
+    create_webtop_devcontainer_from_image "$WEBTOP_BASE" "${PACMAN_MIRROR_FEATURE},
+    ${COMMON_UTILS_WEBTOP}" \
         "src/arch-webtop-${de}/arch-webtop-${de}-common/.devcontainer/devcontainer.json"
     create_webtop_metadata "arch-webtop-${de}-common" \
         "Arch Linux webtop image with ${de^^} and common development tools" \

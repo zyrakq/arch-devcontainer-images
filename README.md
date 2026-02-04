@@ -9,11 +9,13 @@ Pre-built Docker images for VS Code Dev Containers based on Arch Linux, organize
 Minimal Arch Linux images without desktop environment.
 
 | Image | Description | Registry |
-|-------|-------------|----------|
+| ----- | ----------- | -------- |
 | arch-base | Minimal Arch Linux without features | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base` |
-| arch-base-common | Arch Linux with common-utils | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-common` |
+| arch-base-common | Arch Linux with pacman-mirror + common-utils | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-common` |
 | arch-base-dind | Arch Linux with Docker-in-Docker | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dind` |
 | arch-base-dood | Arch Linux with Docker-outside-of-Docker | `ghcr.io/zyrakq/arch-devcontainer-images/arch-base-dood` |
+
+> **Note**: All `-common` images include `pacman-mirror` feature configured with reflector mode for optimal mirror selection before installing development tools.
 
 ### 🖥️ arch-webtop Families
 
@@ -32,7 +34,7 @@ Desktop environment images with web-based access. Each desktop environment has i
 Each desktop environment family includes 4 images:
 
 | Image | Description |
-|-------|-------------|
+| ----- | ----------- |
 | arch-webtop-{de} | Base desktop environment |
 | arch-webtop-{de}-common | DE + common-utils |
 | arch-webtop-{de}-dind | DE + Docker-in-Docker |
@@ -120,7 +122,8 @@ src/
 Features can be added to any base image to customize your environment:
 
 | Feature | Source |
-|---------|--------|
+| ------- | ------ |
+| pacman-mirror | `ghcr.io/zyrakq/arch-devcontainer-features/pacman-mirror` |
 | common-utils | `ghcr.io/bartventer/arch-devcontainer-features/common-utils` |
 | node | `ghcr.io/zyrakq/arch-devcontainer-features/node` |
 | rust | `ghcr.io/zyrakq/arch-devcontainer-features/rust` |
@@ -192,7 +195,7 @@ Result: `registry.example.com/arch-base-common:latest` (all platforms)
 Images are built weekly on **Wednesday** to optimize resource usage and leverage layer caching:
 
 | Time (UTC) | Stage | Count | Base Image | Description |
-|------------|-------|-------|------------|-------------|
+| ---------- | ----- | ----- | ---------- | ----------- |
 | 00:00 | Base Images | 6 | upstream | Minimal base images from archlinux and linuxserver |
 | 01:30 | Common Utils | 6 | *-base:latest | Base images with common-utils feature |
 | 03:00 | Docker-in-Docker | 6 | *-common:latest | Images with DinD support |

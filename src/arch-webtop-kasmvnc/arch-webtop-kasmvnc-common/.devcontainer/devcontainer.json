@@ -1,6 +1,9 @@
 {
   "image": "ghcr.io/zyrakq/arch-devcontainer-images/arch-webtop-kasmvnc:latest",
   "features": {
+    "ghcr.io/zyrakq/arch-devcontainer-features/pacman-mirror:1": {
+      "mode": "reflector"
+    },
     "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
       "username": "abc",
       "additionalPackages": "base-devel",

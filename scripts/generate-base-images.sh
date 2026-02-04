@@ -6,6 +6,10 @@
 set -e
 
 # Common feature configurations
+PACMAN_MIRROR_FEATURE='"ghcr.io/zyrakq/arch-devcontainer-features/pacman-mirror:1": {
+      "mode": "reflector"
+    }'
+
 COMMON_UTILS_FEATURE='"ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
       "username": "vscode",
       "additionalPackages": "base-devel",
@@ -105,10 +109,11 @@ create_metadata "arch-base" \
     "Minimal Arch Linux base image without pre-installed features" \
     "src/arch-base/arch-base/metadata.json"
 
-# ===== 2. arch-base-common (FROM arch-base:latest + common-utils) =====
+# ===== 2. arch-base-common (FROM arch-base:latest + pacman-mirror + common-utils) =====
 mkdir -p src/arch-base/arch-base-common/.devcontainer
 create_devcontainer_from_image "ghcr.io/zyrakq/arch-devcontainer-images/arch-base:latest" \
-    "${COMMON_UTILS_FEATURE}" \
+    "${PACMAN_MIRROR_FEATURE},
+    ${COMMON_UTILS_FEATURE}" \
     "src/arch-base/arch-base-common/.devcontainer/devcontainer.json"
 
 create_metadata "arch-base-common" \
